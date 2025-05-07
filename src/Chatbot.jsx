@@ -7,6 +7,7 @@ const Chatbot = () => {
   ]);
   const [input, setInput] = useState("");
   const [showChat, setShowChat] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef(null);
 
   useEffect(() => {
@@ -17,6 +18,8 @@ const Chatbot = () => {
     if (!input.trim()) return;
     const userMessage = { sender: "user", text: input };
     setMessages(prev => [...prev, userMessage]);
+    setInput(""); // Clear input immediately after sending
+    setIsLoading(true);
 
     try {
       const response = await fetch("http://localhost:5005/webhooks/rest/webhook", {
@@ -54,7 +57,7 @@ const Chatbot = () => {
       console.error("Error:", error);
     }
 
-    setInput("");
+    setIsLoading(false);
   };
 
   const handleKeyPress = (e) => {
@@ -73,8 +76,8 @@ const Chatbot = () => {
         <div className="chatbot-wrapper">
           <div className="chatbot-container">
             <div className="chat-header">
-                <span className="highlight">UTH</span>
-                <button className="close-btn" onClick={() => setShowChat(false)}>×</button>
+              <img src="logouth.png" alt="UTH Logo" className="chat-logo"/>
+              <button className="close-btn" onClick={() => setShowChat(false)}>×</button>
             </div>
             <div className="chat-body">
               {messages.map((msg, index) => (
@@ -85,6 +88,15 @@ const Chatbot = () => {
                   {msg.text}
                 </div>
               ))}
+              {isLoading && (
+                <div className="chat-bubble bot loading">
+                  <span className="loading-dots">
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
+                  </span>
+                </div>
+              )}
               <div ref={chatEndRef} />
             </div>
             <div className="chat-input">
@@ -95,7 +107,17 @@ const Chatbot = () => {
                 onKeyPress={handleKeyPress}
                 placeholder="Nhập tin nhắn của bạn..."
               />
-              <button onClick={handleSend}>&gt;</button>
+              <button onClick={handleSend} className="send-btn">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  width="24"
+                  height="24"
+                >
+                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
