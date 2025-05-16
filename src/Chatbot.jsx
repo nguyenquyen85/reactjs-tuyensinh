@@ -22,7 +22,7 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5005/webhooks/rest/webhook", {
+      const response = await fetch("https://2aff-116-110-42-18.ngrok-free.app/webhooks/rest/webhook", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
