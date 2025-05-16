@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Chatbot.css";
+const RASA_URL = import.meta.env.VITE_RASA_URL;
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
@@ -22,7 +23,7 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://2aff-116-110-42-18.ngrok-free.app/webhooks/rest/webhook", {
+      const response = await fetch(`${RASA_URL}/webhooks/rest/webhook`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
