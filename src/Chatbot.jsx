@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Chatbot.css";
-const RASA_URL = import.meta.env.VITE_RASA_URL;
+const RASA_URL = import.meta.env.VITE_RASA_URL || "http://localhost:5005";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([
